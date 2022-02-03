@@ -5,9 +5,11 @@ const Manager = require('./lib/Manager');
 const Engineer = require('./lib/Engineer');
 const Intern = require('./lib/Intern');
 
+// empty array to push all employees into
+const employeeArr = []
 
 // Create an array of questions for user input
-const questions = () => {
+const managerQuestions = () => {
     return inquirer.prompt([{
         type: 'input',
         name: 'managerName',
@@ -60,9 +62,133 @@ const questions = () => {
                 }
               }
             }
-        ])}
+        ]).then((data) => {
+            let manager = new Manager(data.managerName, data.managerID, data.managerEmail, data.managerOfficeNum)
+            employeeArr.push(manager)
+            console.log(manager)
+            employeeQuestions()
+        })}
 
-        questions().then((data) => {
-            console.log(data)
-        })
+const employeeQuestions = () => {
+    return inquirer.prompt([{
+        type: 'checkbox',
+        name: 'employee',
+        message: 'Which type of employee would you like to add?',
+        choices: ['Engineer', 'Intern']
+    }
+]).then(data => {
+    console.log(data)
+    if (data.employee == 'Engineer') {
+        return inquirer.prompt([{
+            type: 'input',
+            name: 'engineerName',
+            message: 'What is the name of the engineer?',
+            validate: managerNameInput => {
+                if (managerNameInput) {
+                  return true;
+                } else {
+                  console.log('Please enter an engineer name.');
+                  return false;
+                }
+              }
+            },
+            {
+                type: 'input',
+                name: 'engineerID',
+                message: 'Please enter an engineer ID number.',
+                validate: idInput => {
+                    if (idInput) {
+                    return true;
+                    } else {
+                    console.log('Please enter an engineer ID number.');
+                    return false;
+                    }
+                }
+                },
+                {
+                type: 'input',
+                name: 'engineerEmail',
+                message: 'Please provide an engineer email address.',
+                validate: emailInput => {
+                    if (emailInput) {
+                        return true;
+                    } else {
+                        console.log('Please enter a eningeer email address.');
+                        return false;
+                    }
+                    }
+                    },    
+            {
+                type: 'input',
+                name: 'github',
+                message: 'Please provide the engineer github username.',
+                validate: officeInput => {
+                    if (officeInput) {
+                      return true;
+                    } else {
+                      console.log('Please enter a github username.');
+                      return false;
+                    }
+                  }
+                }
+            ])
+    }
+    else {
+        return inquirer.prompt([{
+            type: 'input',
+            name: 'engineerName',
+            message: 'What is the name of the intern?',
+            validate: managerNameInput => {
+                if (managerNameInput) {
+                  return true;
+                } else {
+                  console.log('Please enter an intern name.');
+                  return false;
+                }
+              }
+            },
+            {
+                type: 'input',
+                name: 'internID',
+                message: 'Please enter an intern ID number.',
+                validate: idInput => {
+                    if (idInput) {
+                    return true;
+                    } else {
+                    console.log('Please enter an intern ID number.');
+                    return false;
+                    }
+                }
+                },
+                {
+                type: 'input',
+                name: 'engineerEmail',
+                message: 'Please provide an intern email address.',
+                validate: emailInput => {
+                    if (emailInput) {
+                        return true;
+                    } else {
+                        console.log('Please enter an intern email address.');
+                        return false;
+                    }
+                    }
+                    },    
+            {
+                type: 'input',
+                name: 'school',
+                message: 'Please provide the school of the intern.',
+                validate: officeInput => {
+                    if (officeInput) {
+                      return true;
+                    } else {
+                      console.log('Please enter a school.');
+                      return false;
+                    }
+                  }
+                }
+            ])
+    }
+})
+}
 
+managerQuestions();
