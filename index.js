@@ -130,8 +130,20 @@ const employeeQuestions = () => {
                       return false;
                     }
                   }
+                },
+            {
+                type: 'confirm',
+                name: 'confirm',
+                message: 'Would you like to add another employee?'
+            }
+            ]).then(data => {
+                if (data.confirm) {
+                    employeeQuestions();
                 }
-            ])
+                else {
+                    console.log('generating page')
+                }
+            })
     }
     else {
         return inquirer.prompt([{
@@ -185,8 +197,20 @@ const employeeQuestions = () => {
                       return false;
                     }
                   }
+                },
+            {
+                type: 'confirm',
+                name: 'confirm',
+                message: 'Would you like to add another employee?'
+            }
+            ]).then(data => {
+                if (data.confirm) {
+                    employeeQuestions();
                 }
-            ])
+                else {
+                    console.log('generating page')
+                }
+            })
     }
 })
 }
