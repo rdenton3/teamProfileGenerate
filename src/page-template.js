@@ -3,37 +3,43 @@ const generateHTML = employeeArr => {
     return employeeArr.map((data) => {
         let role = data.getRole();
         if (role === 'Manager') {
-            return `<div class="card" style="width: 18rem;">
+            return `<div class="card col mx-5">
             <div class="card-body">
               <h5 class="card-title">Name: ${data.getName()}</h5>
               <h6 class="card-subtitle mb-2 text-muted">${role}</h6>
-              <p class="card-text">ID: ${data.getId()}</p>
-              <p class="card-text">Office Num: ${data.getOfficeNum()}</p>
-              <a href="mailto:${data.getEmail()}" class="card-link">Email: ${data.getEmail()}</a>
+              <ul class="list-group list-group-flush">
+              <li class="list-group-item">ID: ${data.getId()}</li>
+              <li class="list-group-item">Github: ${data.getOfficeNum()}</li>
+              <li class="list-group-item"><a href="mailto:${data.getEmail()}" class="card-link">Email: ${data.getEmail()}</a></li>
+                </ul>
             </div>
           </div>
             `
         }
         else if (role === 'Engineer') {
-            return `<div class="card" style="width: 18rem;">
+            return `<div class="card col mx-5">
             <div class="card-body">
               <h5 class="card-title">Name: ${data.getName()}</h5>
               <h6 class="card-subtitle mb-2 text-muted">${role}</h6>
-              <p class="card-text">ID: ${data.getId()}</p>
-              <p class="card-text">Github: ${data.getGithub()}</p>
-              <a href="mailto:${data.getEmail()}" class="card-link">Email: ${data.getEmail()}</a>
+              <ul class="list-group list-group-flush">
+              <li class="list-group-item">ID: ${data.getId()}</li>
+              <li class="list-group-item">Github: ${data.getGithub()}</li>
+              <li class="list-group-item"><a href="mailto:${data.getEmail()}" class="card-link">Email: ${data.getEmail()}</a></li>
+                </ul>
             </div>
           </div>
             `
         }
         else if (role === 'Intern') {
-            return `<div class="card" style="width: 18rem;">
+            return `<div class="card col mx-5">
             <div class="card-body">
               <h5 class="card-title">Name: ${data.getName()}</h5>
               <h6 class="card-subtitle mb-2 text-muted">${role}</h6>
-              <p class="card-text">ID: ${data.getId()}</p>
-              <p class="card-text">School: ${data.getSchool()}</p>
-              <a href="mailto:${data.getEmail()}" class="card-link">Email: ${data.getEmail()}</a>
+              <ul class="list-group list-group-flush">
+              <li class="list-group-item">ID: ${data.getId()}</li>
+              <li class="list-group-item">Github: ${data.getSchool()}</li>
+              <li class="list-group-item"><a href="mailto:${data.getEmail()}" class="card-link">Email: ${data.getEmail()}</a></li>
+                </ul>
             </div>
           </div>
             `
@@ -55,12 +61,15 @@ module.exports = (htmlData) => {
     </head>
   
     <body>
-        <header>
-            <h1>
-            My Team 
-            </h1>
-        </header>
+        <div class="jumbotron jumbotron-fluid">
+            <div class="container">
+                <h1 class="display-4">My Team</h1>
+                <p class="lead">Please see team details below.</p>
+            </div>
+        </div>
+        <div class="row">
         ${generateHTML(htmlData).join('')}
+        </div>
     </body>
     </html>
     `
