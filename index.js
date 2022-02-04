@@ -1,4 +1,5 @@
 const inquirer = require('inquirer');
+const generateHTML = require('./src/page-template')
 const fs = require('fs')
 const Employee = require('./lib/Employee');
 const Manager = require('./lib/Manager');
@@ -7,8 +8,7 @@ const Intern = require('./lib/Intern');
 
 // empty array to push all employees into
 const employeeArr = []
-
-// Create an array of questions for user input
+// start by asking manager questions
 const managerQuestions = () => {
     return inquirer.prompt([{
         type: 'input',
@@ -62,10 +62,11 @@ const managerQuestions = () => {
                 }
               }
             }
+            // then after responses have been submitted, push data into array
         ]).then((data) => {
             let manager = new Manager(data.managerName, data.managerID, data.managerEmail, data.managerOfficeNum)
             employeeArr.push(manager)
-            console.log(manager)
+            // call next set of questions
             employeeQuestions()
         })}
 
@@ -77,7 +78,6 @@ const employeeQuestions = () => {
         choices: ['Engineer', 'Intern']
     }
 ]).then(data => {
-    console.log(data)
     if (data.employee == 'Engineer') {
         return inquirer.prompt([{
             type: 'input',
@@ -137,18 +137,22 @@ const employeeQuestions = () => {
                 message: 'Would you like to add another employee?'
             }
             ]).then(data => {
+                // push employee into array and if user wants to add another employee, call employeeQuestions again
+                let engineer = new Engineer(data.engineerName, data.engineerID, data.engineerEmail, data.github)
+                employeeArr.push(engineer)
                 if (data.confirm) {
                     employeeQuestions();
                 }
                 else {
-                    console.log('generating page')
+                    let file = generateHTML(employeeArr);
+                    writeFile(file)
                 }
             })
     }
     else {
         return inquirer.prompt([{
             type: 'input',
-            name: 'engineerName',
+            name: 'internName',
             message: 'What is the name of the intern?',
             validate: managerNameInput => {
                 if (managerNameInput) {
@@ -174,7 +178,7 @@ const employeeQuestions = () => {
                 },
                 {
                 type: 'input',
-                name: 'engineerEmail',
+                name: 'internEmail',
                 message: 'Please provide an intern email address.',
                 validate: emailInput => {
                     if (emailInput) {
@@ -204,15 +208,35 @@ const employeeQuestions = () => {
                 message: 'Would you like to add another employee?'
             }
             ]).then(data => {
+                let intern = new Intern(data.internName, data.internID, data.internEmail, data.school)
+                employeeArr.push(intern)
                 if (data.confirm) {
                     employeeQuestions();
                 }
                 else {
-                    console.log('generating page')
+                    let file = generateHTML(employeeArr);
+                    writeFile(file)
                 }
             })
     }
 })
 }
 
+// function to write to file
+const writeFile = fileContent => {
+    return new Promise((resolve, reject) => {
+      fs.writeFile('./dist/index.html', fileContent, err => {
+        if (err) {
+          reject(err);
+          return;
+        }
+  
+        resolve({
+          ok: true,
+          message: 'File created!'
+        });
+      });
+    });
+  };
+  
 managerQuestions();
