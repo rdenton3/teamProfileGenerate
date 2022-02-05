@@ -1,6 +1,7 @@
 // define function
 const generateHTML = employeeArr => {
     return employeeArr.map((data) => {
+        console.log(data)
         let role = data.getRole();
         if (role === 'Manager') {
             return `<div class="card col mx-5">
@@ -9,7 +10,7 @@ const generateHTML = employeeArr => {
               <h6 class="card-subtitle mb-2 text-muted">${role}</h6>
               <ul class="list-group list-group-flush">
               <li class="list-group-item">ID: ${data.getId()}</li>
-              <li class="list-group-item">Github: ${data.getOfficeNum()}</li>
+              <li class="list-group-item">Office Number: ${data.getOfficeNum()}</li>
               <li class="list-group-item"><a href="mailto:${data.getEmail()}" class="card-link">Email: ${data.getEmail()}</a></li>
                 </ul>
             </div>
@@ -37,7 +38,7 @@ const generateHTML = employeeArr => {
               <h6 class="card-subtitle mb-2 text-muted">${role}</h6>
               <ul class="list-group list-group-flush">
               <li class="list-group-item">ID: ${data.getId()}</li>
-              <li class="list-group-item">Github: ${data.getSchool()}</li>
+              <li class="list-group-item">School: ${data.getSchool()}</li>
               <li class="list-group-item"><a href="mailto:${data.getEmail()}" class="card-link">Email: ${data.getEmail()}</a></li>
                 </ul>
             </div>
